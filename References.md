@@ -48,6 +48,25 @@
 10. [Differentiable Semantic ID for Generative Recommendation](https://arxiv.org/abs/2601.19711)
     - **Year**: 2026
     - **Type**: Research paper
+    - **Topics covered**:
+        - DIGER (Differentiable Semantic ID for GEnerative Recommendation)
+        - Differentiable SID framework with exploratory learning (DRIL) with Gumbel noise
+    - **Notes**:
+        - Most SIDs are optimized for content reconstruction instead of recommendation such as RQ-VAE
+        - Since semantic IDs are precomputed and frozen, the recommendation loss cannot propagate gradients back.
+        - Solution is to make IDs differentiable similar to MoRec. Issue is the discrete nature.
+        - Most common workaround - straight-through estimator (STE) - can trigger SID collapse causing a small subset of codes to dominate.
+        - Designed a differentiable SID framework with exploratory learning (DRIL) with Gumbel noise to address the codebook collapse.
+        -  DIGER employs Soft Update, allowing gradients to flow to all codebook weighted by their Gumbel-Softmax probabilities, while the noise level is progressively reduced via uncertainty decay strategies (exploration -> exploitation).
+        - Hard SID are used for forward indexing whereas gradients are updated using soft probabilities
+    - **Datasets**:
+        - B-Shop
+        - I-Shop
+        - Yelp
+    - **Related works**:
+        - TIGER
+        - LETTER
+        - ETEGRec
 
 11. [Semantic-Enhanced Differentiable Search Index Inspired by Learning Strategies](https://arxiv.org/abs/2305.15115)
     - **Year**: 2023
