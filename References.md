@@ -137,10 +137,45 @@
 24. [End-to-End Semantic ID Generation for Generative Advertisement Recommendation](https://arxiv.org/pdf/2602.10445)
     - **Year**: 2026
     - **Type**: Research paper
+    - **Topics covered**:
+        - Unified SID generation framework (UniSID)
+        - Multi-granularity Contrastive Learning
+        - Summary-based Ad Reconstruction
+    - **Notes**:
+        - Generating SIDs via Residual Quantization (RQ) suffers from objective misalignment and semantic degradation from two-stage compression.
+        - Jointly optimized embeddings and SIDs in an end-to-end manner.
+        -  To capture fine-grained semantics, a multi-granularity contrastive learning strategy is introduced to align distinct items across SID levels.
+        - A summary-based ad reconstruction mechanism is proposed to encourage SIDs to capture high-level semantic information that is not explicitly present in contexts.
+        - Focuses primarily on SID and embedding generation
+    - **Datasets**:
+        - two real-world industrial advertising datasets (Tencent): Ad-60W and Ad-100W
+        - Amazon Review Beauty
+    - **Related works**:
+        - TIGER
+        - LETTER
 
 25. [Unleash the Potential of Long Semantic IDs for Generative Recommendation](https://arxiv.org/pdf/2602.13573)
     - **Year**: 2026
     - **Type**: Research paper
+    - **Topics covered**:
+        - ACERec (Adaptive Compression for Efficient Recommendation)
+        - Attentive Token Merger to compress long semantic IDs into compact yet faithful latent tokens
+        - Intent Token, optimized by a dual-granularity objective that combines token-level generation with item-level intent-semantic alignment.
+        - Residual quantization vs Product Quantization
+    - **Notes**:
+        - Granularity-efficiency dilemma between efficient recommendation with short IDs and expressive item modeling with long IDs.
+        - Optimized Product Quantization (OPQ)-based methods decompose item embeddings into orthogonal subspaces and quantize them independently 
+        - Key is to decouple tokenization granularity from recommendation complexity, allowing the tokenizer to retain rich semantics while the recommender operates on compact yet faithful representations.
+        - Dual-granularity alignment objective: fine-grained token prediction for accurate semantic ID generation, and item-level alignment to ensure that the learned preference remains predictive of the target item.
+        - Uses vectorized score gathering instead of beam search (TIGER) or iterative graph decoding (RPG)
+        - Competitive on cold-start items unlike others
+    - **Datasets**:
+        - Amazon Reviews: Sports, Beauty, Toys, CDs, Office, Pets, Baby, Science and Instruments
+    - **Related works**:
+        - TIGER
+        - ActionPiece
+        - ETEGRec
+        - RPG
 
 26. [Purely Semantic Indexing for LLM-based Generative Recommendation and Retrieval](https://arxiv.org/pdf/2509.16446)
     - **Year**: 2025
