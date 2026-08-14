@@ -58,6 +58,19 @@
 9. [Better Generalization with Semantic IDs: A Case Study in Ranking for Recommendations](https://arxiv.org/pdf/2306.08121)
     - **Year**: 2023
     - **Type**: Research paper
+    - **Topics covered**:
+        - SPM-SID
+        - Two ways of adapting SIDs in recommendation models: n-gram and SentencePiece model (SPM).
+    - **Notes**:
+        - Semantic IDs for a good balance between memorization and generalization
+        - A key design choice is to train and then freeze the RQ-VAE model from Stage 1. The frozen RQ-VAE model generates Semantic IDs for training and serving the ranking model.
+        - N-gram item representations leverage SID codes by grouping them into subwords of length N. Each subword is then associated with a learnable embedding.
+        - For SPM-based representation, we learn a single embedding table where each row corresponds to a particular variable-length subpieces. By adaptively constructing subword vocabularies given a fixed embedding table size, the SPM vocabulary allows striking a balance between generalization and memorization.
+        - Used a video encoder to generate dense content embeddings for each YouTube video.
+    - **Datasets**:
+        - YouTube
+    - **Related works**:
+        - Compared with random hashing and dense embeddings for content
 
 10. [Differentiable Semantic ID for Generative Recommendation](https://arxiv.org/pdf/2601.19711)
     - **Year**: 2026
@@ -133,6 +146,24 @@
 23. [Generating Long Semantic IDs in Parallel for Recommendation](https://arxiv.org/pdf/2506.05781)
     - **Year**: 2025
     - **Type**: Research paper
+    - **Topics covered**:
+        - Recommendation with Parallel semantic ID Generation (RPG)
+        - Unordered long semantic IDs using optimized product quantization
+        - Multi-token Prediction Objective (MTP)
+    - **Notes**:
+        - SIDs rely on inefficient inference due to reliance on beam search.
+        - The key idea is to produce unordered, long semantic IDs, allowing the model to predict all tokens in parallel using a multi-token prediction loss.
+        - Autoregressive models use short SID sequences for reasonable latency which may be insufficient.
+        - Long semantic IDs are created using OPQ and model is traived with MTP.
+        - Graph is built to link items with similar semantic IDs. During inference, multiple semantic IDs are sampled from the item pool and graph traversed to find top-k items with best logits.
+        - Inference time complexity independent of the number of items.
+        - Good cold start performance
+    - **Datasets**:
+        - Amazon Reviews: Sports, Beauty, Toys and CDs
+    - **Related works**:
+        - TIGER
+        - HSTU
+        - RecJPQ
 
 24. [End-to-End Semantic ID Generation for Generative Advertisement Recommendation](https://arxiv.org/pdf/2602.10445)
     - **Year**: 2026
@@ -149,7 +180,7 @@
         - Focuses primarily on SID and embedding generation
     - **Datasets**:
         - two real-world industrial advertising datasets (Tencent): Ad-60W and Ad-100W
-        - Amazon Review Beauty
+        - Amazon Reviews: Beauty
     - **Related works**:
         - TIGER
         - LETTER
@@ -210,3 +241,19 @@
     - **Related works**:
         - TIGER
         - LETTER
+
+31. [ActionPiece: Contextually Tokenizing Action Sequences for Generative Recommendation](https://arxiv.org/pdf/2502.13581)
+    - **Year**: 2025
+    - **Type**: Research paper
+    - **Topics covered**:
+        - ActionPiece
+        - Context-aware subaction-level action tokenizer with weighted co-occurrence counting
+        - Does not cover semantic IDs but covers generative recommendation using sequence of textual item features
+    - **Notes**:
+        - Existing methods tokenize each action independently of its context. The tokens do not explicitly contain the context.
+        - The idea is to iteratively find the most commonly co-occurring pairs of tokens among the training action sequences, then merge them into new tokens to represent segments of context. The features associated with an action form an unordered set.
+    - **Datasets**:
+        - Amazon Reviews - Sports, Beauty and CDs
+    - **Related works**:
+        - TIGER
+        - SPM-SID
