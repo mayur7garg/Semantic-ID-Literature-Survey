@@ -55,24 +55,38 @@ pdfauthor = {Mayur Garg}
 \section{Architectures}
 \subsection{Non-Parametric models}
 
-\subsection{Generative models}
-Works that utilize semantic IDs for generative recommendation can be generally classified along three axes - 1. whether the semantic ID generation and generative recommendation models are independently trained, 2. whether they used pre-trained item embeddings and 3. whether they utilize any complementary information to train semantic IDs apart from item information. Table \ref{table:ModelClassification} briefly summarizes the models that fall into any of these categories.
+\subsection{Generative models using Semantic IDs}
+Works that generate semantic IDs for generative recommendation can be generally classified along the following three axes:
+
+\begin{enumerate}
+    \item Whether the semantic ID generation and generative recommendation models are independently trained
+    \item Whether pretrained item embeddings were used
+    \item Whether any complementary information to train semantic IDs apart from item information was utilized
+\end{enumerate}
 
 \begin{table}
 \centering
 \begin{tabular}{| c | c | c | c |} 
  \hline
- \makecell{\textbf{Training of SID and} \\ \textbf{recommendation models}} & \makecell{\textbf{Uses pre-trained} \\ \textbf{item embeddings}} & \textbf{Data used} & \textbf{Models}\\
+ \makecell{\textbf{SID generation and} \\ \textbf{recommendation models}} & \makecell{\textbf{Uses pre-trained} \\ \textbf{item embeddings}} & \textbf{Data used} & \textbf{Models}\\
  \hline
- Independently trained & Yes & Only item information & \textbf{RPG}\\
+ Independently trained & Yes & Only item information & \makecell{
+ \textbf{TIGER}\cite{2023TIGER_rajput2023recommendersystemsgenerativeretrieval}\\
+ \textbf{RPG}\cite{2025RPG_hou2025generatinglongsemanticids}\\
+ \textbf{SPM-SID}\cite{2023SPMSID_singh2024bettergeneralizationsemanticids}
+ }\\
  \hline
- Independently trained & Yes & Uses complementary data & \textbf{-}\\
+ Independently trained & Yes & Uses complementary data & \textbf{LETTER\cite{2024LETTER_wang2025learnableitemtokenizationgenerative}}\\
  \hline
- Independently trained & No & Only item information & \textbf{-}\\
+ Independently trained & No & Only item information & \textbf{UniSID\cite{2026UniSID_jiang2026endtoendsemanticidgeneration}}\\
  \hline
  Independently trained & No & Uses complementary data & \textbf{-}\\
  \hline
- Jointly trained & Yes & Only item information & \textbf{-}\\
+ Jointly trained & Yes & Only item information & \makecell{
+ \textbf{DIGER}\cite{2026DIGER_fu2026differentiablesemanticidgenerative}\\
+ \textbf{ACERec}\cite{2026ACERec_xia2026unleashpotentiallongsemantic}\\
+ \textbf{ETEGRec}\cite{2024ETEGRec_liu2025generativerecommenderendtoendlearnable}
+ }\\
  \hline
  Jointly trained & Yes & Uses complementary data & \textbf{-}\\
  \hline
@@ -81,11 +95,26 @@ Works that utilize semantic IDs for generative recommendation can be generally c
  Jointly trained & No & Uses complementary data & \textbf{-}\\
  \hline
 \end{tabular}
-\caption{Model classification}
+\caption{Classification of models used for generative recommendation using Semantic IDs}
 \label{table:ModelClassification}
 \end{table}
 
-Not all categories may have models associated with them and not all models may fall strictly into one of these categories. Focus of some of the research may also not be a good fit for such classification. In \cite{2025RPG_hou2025generatinglongsemanticids}, the primary objective of the authors have been to generate long and more expressive semantic IDs using a framework that can generate them in parallel. The classification in Table \ref{table:ModelClassification} does not account for this. This generalized classification, however, allows us to organize the research areas in this space in a way that is more suitable for real-world use.
+Table \ref{table:ModelClassification} briefly summarizes the models that fall into any of the 8 possible combinations for these axes. It is to be noted that not all categories may have models associated with them and not all models may fall strictly into one of these categories. Focus of some of the research may also not be a good fit for such classification. In \cite{2025RPG_hou2025generatinglongsemanticids}, the primary objective of the authors have been to generate long and more expressive semantic IDs using a framework that can generate them in parallel. The classification in Table \ref{table:ModelClassification} does not account for this. This generalized classification, however, allows us to organize the research areas in this space in a way that is more suitable for real-world use since each axis focuses on a different aspect of the generative recommendation process.
+
+Independent training of SID generation and generative recommendation allows the semantic IDs to be decoupled from its usage in recommendation. The SID, in this case, is a more truthful representation of its corresponding item and its content, and not of the item a user is likely to click on next. This is primarily useful if SIDs need to be also used for item organization or for recommending items solely on content similarity. The second axis focuses on the cost aspect of the recommendation process. Training an embedding model tailored to a specific catalog of items may improve the quality of embeddings but in practice that is often costly and infeasible. Using a pretrained embedding model to generate embeddings using item features as input is more cost effective and practical for most use cases. The last axis depicts whether any other data apart from the item contents, such as any user-level preferences and co-occurence features, is used as part of generating the SIDs. Although, some models use some kind of information during the generative process to personalize the recommendations for a specific user, usage of such information to generate semantic IDs is limited.
+
+For any real-world use case, the appropriate choice of architecture can be narrowed down by asking the following questions:
+
+\begin{enumerate}
+    \item Should semantic ID of an item be a representation of its contents or of the item that should follow it in the recommendation sequence?
+    \item Is it feasible to train a custom embedding model for encoding the item contents?
+    \item Should semantic IDs also encode any other information such as user-level preferences and co-occurence features?
+\end{enumerate}
+
+\subsubsection{Independently trained models}
+\subsubsection{Jointly trained models}
+
+\subsection{Generative models using semantic text features}
 
 \section{Datasets}
 \subsection{Amazon Reviews}
@@ -99,4 +128,22 @@ Not all categories may have models associated with them and not all models may f
 \section{Conclusion}
 
 \printbibliography
+
+\appendix
+\section{AI Usage}
+Table \ref{table:AIUsage} lists down all the prompts and AI tools used in this survey. It is to be noted that AI has been used only to supplement research and spelling/grammar correction and not for generating the contents of this paper.
+
+\begin{table}
+\centering
+\begin{tabular}{| c | c | c |} 
+ \hline
+ \textbf{Prompt} & \textbf{Objective} & \textbf{Model or Tool used}\\
+ \hline
+ \makecell[l]{Search and identify the most influential and relevant \\ research papers or technical blogs in the field of \\ Semantic IDs from the last 5 years. \\ Generate a detailed tabular list of at least 15 papers \\ consisting of the paper title, link, year, type \\ (blog, paper or survey), basic idea of the approach, \\ paper complexity, etc.} & Research supplement & Google AI Studio \\
+  \hline
+\end{tabular}
+\caption{AI prompts used}
+\label{table:AIUsage}
+\end{table}
+
 \end{document}
