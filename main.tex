@@ -14,6 +14,7 @@
 \usepackage[pdftex,linkcolor=black,pdfborder={0 0 0}]{hyperref} % Format links for pdf
 \usepackage{calc} % To reset the counter in the document after title page
 \usepackage{enumitem} % Includes lists
+\usepackage{makecell}
 
 \frenchspacing % No double spacing between sentences
 \linespread{1.2} % Set linespace
@@ -45,6 +46,57 @@ pdfauthor = {Mayur Garg}
 \maketitle
 
 \section{Introduction}
+
+\section{Foundational concepts}
+\subsection{Generative recommendation}
+
+\subsection{Semantic IDs}
+
+\section{Architectures}
+\subsection{Non-Parametric models}
+
+\subsection{Generative models}
+Works that utilize semantic IDs for generative recommendation can be generally classified along three axes - 1. whether the semantic ID generation and generative recommendation models are independently trained, 2. whether they used pre-trained item embeddings and 3. whether they utilize any complementary information to train semantic IDs apart from item information. Table \ref{table:ModelClassification} briefly summarizes the models that fall into any of these categories.
+
+\begin{table}
+\centering
+\begin{tabular}{| c | c | c | c |} 
+ \hline
+ \makecell{\textbf{Training of SID and} \\ \textbf{recommendation models}} & \makecell{\textbf{Uses pre-trained} \\ \textbf{item embeddings}} & \textbf{Data used} & \textbf{Models}\\
+ \hline
+ Independently trained & Yes & Only item information & \textbf{RPG}\\
+ \hline
+ Independently trained & Yes & Uses complementary data & \textbf{-}\\
+ \hline
+ Independently trained & No & Only item information & \textbf{-}\\
+ \hline
+ Independently trained & No & Uses complementary data & \textbf{-}\\
+ \hline
+ Jointly trained & Yes & Only item information & \textbf{-}\\
+ \hline
+ Jointly trained & Yes & Uses complementary data & \textbf{-}\\
+ \hline
+ Jointly trained & No & Only item information & \textbf{-}\\
+ \hline
+ Jointly trained & No & Uses complementary data & \textbf{-}\\
+ \hline
+\end{tabular}
+\caption{Model classification}
+\label{table:ModelClassification}
+\end{table}
+
+Not all categories may have models associated with them and not all models may fall strictly into one of these categories. Focus of some of the research may also not be a good fit for such classification. In \cite{2025RPG_hou2025generatinglongsemanticids}, the primary objective of the authors have been to generate long and more expressive semantic IDs using a framework that can generate them in parallel. The classification in Table \ref{table:ModelClassification} does not account for this. This generalized classification, however, allows us to organize the research areas in this space in a way that is more suitable for real-world use.
+
+\section{Datasets}
+\subsection{Amazon Reviews}
+
+\subsection{Yelp}
+
+\section{Metrics and Evaluation}
+
+\section{Explainability, Fairness and Bias}
+
+\section{Conclusion}
 
 \printbibliography
 \end{document}
