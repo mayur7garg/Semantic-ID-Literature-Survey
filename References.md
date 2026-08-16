@@ -7,7 +7,17 @@
     - **Topics covered**:
         - Transformer Index for GEnerative Recommenders (TIGER)
     - **Notes**:
-        - Uses RQ-VAE
+        - Uses RQ-VAE to quantize item embeddings. Other alternatives include LSH (Locality Sensitive Hashing), hierarichal K-Means clustering and VQ-VAE.
+        - Similar items should have overlapping semantic IDs.
+        - Collision detection and fixing is done via an extra token after the RQ-VAE is trained.
+        - Can be slower than ANN-based models. Optimizing for computational efficiency is not the main objective of this work.
+        - New capabilities - Cold start recommendation and recommendation diversity
+    - **Datasets**:
+        - Amazon Reviews: Beauty, Sports, Toys
+    - **Related works**:
+        - RQ-VAE
+        - VQ-VAE
+        - P5
 
 2. [Text Is All You Need: Learning Language Representations for Sequential Recommendation](https://arxiv.org/pdf/2305.13731)
     - **Year**: 2023
