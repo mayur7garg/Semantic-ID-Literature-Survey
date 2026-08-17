@@ -164,7 +164,7 @@
         - SIDs rely on inefficient inference due to reliance on beam search.
         - The key idea is to produce unordered, long semantic IDs, allowing the model to predict all tokens in parallel using a multi-token prediction loss.
         - Autoregressive models use short SID sequences for reasonable latency which may be insufficient.
-        - Long semantic IDs are created using OPQ and model is traived with MTP.
+        - Long semantic IDs are created using OPQ and model is trained with MTP.
         - Graph is built to link items with similar semantic IDs. During inference, multiple semantic IDs are sampled from the item pool and graph traversed to find top-k items with best logits.
         - Inference time complexity independent of the number of items.
         - Good cold start performance

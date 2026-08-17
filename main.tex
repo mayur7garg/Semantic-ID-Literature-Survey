@@ -51,11 +51,28 @@ pdfauthor = {Mayur Garg}
 \subsection{Generative recommendation}
 
 \subsection{Semantic IDs}
+\subsection{Embedding quantization strategies}
+The most popular approach to create semantic IDs is to generate item embeddings and then quantize them into a sequence of integer codes. In \cite{2026UniSID_jiang2026endtoendsemanticidgeneration}, the authors even showcased that item embeddings and their semantic IDs can be generated as part of a single training loop.
+
+The choice of quantization strategy not only determines the quality and speed of SID generation, it also affects how semantic IDs are represented. Residual quantization to generate SIDs, which was popularized by Rajput
+et al. \cite{2023TIGER_rajput2023recommendersystemsgenerativeretrieval} using an RQ-VAE \cite{RQVAE_lee2022autoregressiveimagegenerationusing} model, results in semantic IDs which have a hierarchal relationship between subsequent codes. On the other hand, in \cite{2025RPG_hou2025generatinglongsemanticids, 2026ACERec_xia2026unleashpotentiallongsemantic} OPQ\cite{OPQ} is used to generate orthogonal subspaces which can be independently quantized.
+
+\subsubsection{RQ-VAE}
+Figure \ref{fig:RQ-VAE} provides an overview of RQ-VAE \cite{RQVAE_lee2022autoregressiveimagegenerationusing} architecture.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{images/RQ-VAE architecture.png}
+    \caption{RQ-VAE \cite{RQVAE_lee2022autoregressiveimagegenerationusing} architecture}
+    \label{fig:RQ-VAE}
+\end{figure}
+
+\subsubsection{OPQ}
 
 \section{Architectures}
 \subsection{Non-Parametric models}
 
-\subsection{Generative models using Semantic IDs}
+\subsection{Generative models using Semantic IDs} \label{subsection:SemanticIDModels}
 Works that generate semantic IDs for generative recommendation can be generally classified along the following three axes:
 
 \begin{enumerate}
@@ -108,13 +125,14 @@ For any real-world use case, the appropriate choice of architecture can be narro
 \begin{enumerate}
     \item Should semantic ID of an item be a representation of its contents or of the item that should follow it in the recommendation sequence?
     \item Is it feasible to train a custom embedding model for encoding the item contents?
-    \item Should semantic IDs also encode any other information such as user-level preferences and co-occurence features?
+    \item Should semantic IDs also encode any other information such as user-level preferences and collaborative features?
 \end{enumerate}
 
 \subsubsection{Independently trained models}
 \subsubsection{Jointly trained models}
 
 \subsection{Generative models using semantic text features}
+There is a class of models whose functionality and usage for generative recommendation closely resembles that of models covered in Section \ref{subsection:SemanticIDModels} but instead of using a sequence of integer codes, these works utilize textual features to represent an item instead.
 
 \section{Datasets}
 \subsection{Amazon Reviews}
