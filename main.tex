@@ -49,9 +49,20 @@ pdfauthor = {Mayur Garg}
 
 \section{Foundational concepts}
 \subsection{Generative recommendation}
+For a user $u$ and its ordered interaction history $S = [i_i, i_2, \cdots, i_T]$ where $i_t \in I$ for last $T$ interactions with item space $I$, the objective of a generative recommendation model is to predict item $i_{T+1}$ that the user is most likely to interact with. Since most generative models this process in an auto-regressive manner, the probability $P$ of the next item predicted by the recommendation model can be expressed as shown:
+
+\begin{equation} \label{eq:GenRec}
+P (i_{1:T} | u, S) = \prod P(i_t | i_{<t}, u, S)
+\end{equation}
 
 \subsection{Semantic IDs}
-\subsection{Embedding quantization strategies}
+Semantic IDs for a item $i$ can be expressed either as an ordered set $c^i = [c^i_1, c^i_2, \cdots, c^i_L]$ or an unordered set $c^i = \{c^i_1, c^i_2, \cdots, c^i_L\}$  of integer codes where $L$ is the number of semantic codes used per item. Generally, $L$ refers to the number of codebooks used during quantization of the item embeddings such that each codebook contributes one semantic ID (refer to Section \ref{subsection:Quantization}). By using semantic IDs as item identifiers, the interaction history from the previous section can be expressed as $S' = [c^1, c^2, \cdots, c^T]$. Eq \ref{eq:GenRec} now becomes:
+
+\begin{equation} \label{eq:SIDGenRec}
+P (c^{1:T} | u, S') = \prod P(c^t | c^{<t}, u, S')
+\end{equation}
+
+\subsection{Embedding quantization strategies}\label{subsection:Quantization}
 The most popular approach to create semantic IDs is to generate item embeddings and then quantize them into a sequence of integer codes. In \cite{2026UniSID_jiang2026endtoendsemanticidgeneration}, the authors even showcased that item embeddings and their semantic IDs can be generated as part of a single training loop.
 
 The choice of quantization strategy not only determines the quality and speed of SID generation, it also affects how semantic IDs are represented. Residual quantization to generate SIDs, which was popularized by Rajput
