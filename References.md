@@ -120,10 +120,35 @@
 14. [OneRec: Unifying Retrieve and Rank with Generative Recommender and Iterative Preference Alignment](https://arxiv.org/pdf/2502.18965)
     - **Year**: 2025
     - **Type**: Research paper
+    - **Topics covered**:
+        - OneRec
+    - **Notes**:
+        - Uses encoder-decoder architecture Mixture-of-Experts (MoE) to scale model capacity without proportionally increasing computational FLOPs
+        - Uses a session-wise generation approach. The videos within a session generally take into account factors such as user interest, coherence, and diversity
+        - Uses an Iterative Preference Alignment module combined with Direct Preference Optimization (DPO)
+        - A unified end-to-end generative framework for single-stage recommendation
+        - Multi-level balanced quantitative mechanism t otransform the item embedding with residual K-Means quantization algorithm
+    - **Datasets**:
+        - Kuaishou: a short video recommendation platform
+    - **Related works**:
+        - TIGER
 
 15. [Semantic IDs for Joint Generative Search and Recommendation](https://dl.acm.org/doi/10.1145/3705328.3759300)
     - **Year**: 2025
     - **Type**: Research paper
+    - **Topics covered**:
+        - Join S&R
+    - **Notes**:
+        - Compares a rang eof strategies to construct Semantic IDs, looking into task-specific and cross-tasks approaches, and also whether each task should have its own semantic ID tokens in a joint search and recommendation generative mode. Optimizing for one task sacrifices the other.
+        - Reconstructs 3 SID generation pipelines:
+            - Content based (TIGER)
+            - Search tuned IDs
+            - Recommendation tuned IDs
+        - Mapping items to SIDs grouped into task specific and cross-task strategies.
+    - **Datasets**:
+        - MovieLens25M (S&R)
+    - **Related works**:
+        - TIGER
 
 16. [Understanding Generative Recommendation with Semantic IDs from a Model-scaling View](https://arxiv.org/pdf/2509.25522)
     - **Year**: 2025
