@@ -137,7 +137,7 @@
     - **Year**: 2025
     - **Type**: Research paper
     - **Topics covered**:
-        - Join S&R
+        - Joint S&R
     - **Notes**:
         - Compares a rang eof strategies to construct Semantic IDs, looking into task-specific and cross-tasks approaches, and also whether each task should have its own semantic ID tokens in a joint search and recommendation generative mode. Optimizing for one task sacrifices the other.
         - Reconstructs 3 SID generation pipelines:

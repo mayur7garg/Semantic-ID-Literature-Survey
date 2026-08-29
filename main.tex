@@ -56,17 +56,17 @@ P (i_{1:T} | u, S) = \prod P(i_t | i_{<t}, u, S)
 \end{equation}
 
 \subsection{Semantic IDs}
-Semantic IDs for a item $i$ can be expressed either as an ordered set $c^i = [c^i_1, c^i_2, \cdots, c^i_L]$ or an unordered set $c^i = \{c^i_1, c^i_2, \cdots, c^i_L\}$  of integer codes where $L$ is the number of semantic codes used per item. Generally, $L$ refers to the number of codebooks used during quantization of the item embeddings such that each codebook contributes one semantic ID (refer to Section \ref{subsection:Quantization}). By using semantic IDs as item identifiers, the interaction history from the previous section can be expressed as $S' = [c^1, c^2, \cdots, c^T]$. Eq \ref{eq:GenRec} now becomes:
+Semantic IDs for a item $i$ can be expressed either as an ordered set $s_i = [s^1_i, s^2_i, \cdots, s^L_i]$ or an unordered set $s_i = \{s^1_i, s^2_i, \cdots, s^L_i\}$  of integer codes where $L$ is the number of semantic codes used per item. Generally, $L$ refers to the number of codebooks used during quantization of the item embeddings such that each codebook contributes one semantic ID (refer to Section \ref{subsection:Quantization}). By using semantic IDs as item identifiers, the interaction history from the previous section can be expressed as $S' = [s_1, s_2, \cdots, s_T]$. Eq \ref{eq:GenRec} now becomes:
 
 \begin{equation} \label{eq:SIDGenRec}
-P (c^{1:T} | u, S') = \prod P(c^t | c^{<t}, u, S')
+P (s_{1:T} | u, S') = \prod P(s_t | s_{<t}, u, S')
 \end{equation}
 
 \subsection{Embedding quantization strategies}\label{subsection:Quantization}
 The most popular approach to create semantic IDs is to generate item embeddings and then quantize them into a sequence of integer codes. In \cite{2026UniSID_jiang2026endtoendsemanticidgeneration}, the authors even showcased that item embeddings and their semantic IDs can be generated as part of a single training loop.
 
 The choice of quantization strategy not only determines the quality and speed of SID generation, it also affects how semantic IDs are represented. Residual quantization to generate SIDs, which was popularized by Rajput
-et al. \cite{2023TIGER_rajput2023recommendersystemsgenerativeretrieval} using an RQ-VAE \cite{RQVAE_lee2022autoregressiveimagegenerationusing} model, results in semantic IDs which have a hierarchal relationship between subsequent codes. On the other hand, in \cite{2025RPG_hou2025generatinglongsemanticids, 2026ACERec_xia2026unleashpotentiallongsemantic} OPQ\cite{OPQ} is used to generate orthogonal subspaces which can be independently quantized.
+et al. \cite{2023TIGER_rajput2023recommendersystemsgenerativeretrieval} using an RQ-VAE \cite{RQVAE_lee2022autoregressiveimagegenerationusing} model, results in semantic IDs which have a hierarchal relationship between subsequent codes. On the other hand, in \cite{2025RPG_hou2025generatinglongsemanticids, 2026ACERec_xia2026unleashpotentiallongsemantic} OPQ \cite{OPQ} is used to generate orthogonal subspaces which can be independently quantized. Common strategies are listed in the following subsections.
 
 \subsubsection{RQ-VAE}
 Figure \ref{fig:RQ-VAE} provides an overview of RQ-VAE \cite{RQVAE_lee2022autoregressiveimagegenerationusing} architecture.
@@ -79,6 +79,27 @@ Figure \ref{fig:RQ-VAE} provides an overview of RQ-VAE \cite{RQVAE_lee2022autore
 \end{figure}
 
 \subsubsection{OPQ}
+
+\subsubsection{Residual Balanced K-Means}
+Quantization algorithms such as RQ-VAE for generative recommendation using SIDs suffer from the \emph{hourglass} phenomenon (Kuai et al. \cite{kuai2024breakinghourglassphenomenonresidual}) as codebooks in the middle layers become increasingly concentrated. Since the intermediate layers depend on the residual from the prior ones, the distribution of usage of codewords is non-uniform as shown in Figure \ref{fig:HourglassPhenomenon}. On the other hand, OPQ breaks down the hierarchal nature of semantic IDs, the presence of which is desirable for both  explainability and cataloging. Deng et al. \cite{2025OneRec_deng2025onerecunifyingretrieverank} utilize a variation of K-Means to account for balanced codebooks that still maintains the hierarchal nature of semantic IDs.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{images/Hourglass.png}
+    \caption{The Hourglass Phenomenon of Semantic IDs \cite{kuai2024breakinghourglassphenomenonresidual}}
+    \label{fig:HourglassPhenomenon}
+\end{figure}
+
+For a given item embedding $e_i$, the codebook at layer 1 initially consists of randomly assigned centroids $C_1 = \{c_1^1, c_2^1, \cdots , c_K^1\}$ where $K$ is the codebook size. $r_i^1 = e_i$ is the initial residual. For the next layer, the residual is defined using Eq. \ref{eq:ResidualKMeans} where $s_i^1$ is the semantic ID from the first codebook and $r_i^2$ is the residual for the next layer.
+
+\begin{equation} \label{eq:ResidualKMeans}
+\begin{split}
+s_i^1 = \operatorname*{argmin}_{k} ||r_i^1 - c_k^1||_2^2\\
+r_i^2 = r_i^1 - c^1_{s_i^1}
+\end{split}
+\end{equation}
+
+This process continues up to layer $L$. At each layer, the centroids are updated until convergence. To ensure uniform utilization, Balanced K-Means partitions the data such that each cluster has exactly $|I|/K$ items. Other variations of hierarchal clustering also exist to quantize item embeddings.
 
 \section{Architectures}
 \subsection{Non-Parametric models}
@@ -101,7 +122,8 @@ Works that generate semantic IDs for generative recommendation can be generally 
  Independently trained & Yes & Only item information & \makecell{
  \textbf{TIGER}\cite{2023TIGER_rajput2023recommendersystemsgenerativeretrieval}\\
  \textbf{RPG}\cite{2025RPG_hou2025generatinglongsemanticids}\\
- \textbf{SPM-SID}\cite{2023SPMSID_singh2024bettergeneralizationsemanticids}
+ \textbf{SPM-SID}\cite{2023SPMSID_singh2024bettergeneralizationsemanticids}\\
+ \textbf{OneRec}\cite{2025OneRec_deng2025onerecunifyingretrieverank}\\
  }\\
  \hline
  Independently trained & Yes & Uses complementary data & \textbf{LETTER\cite{2024LETTER_wang2025learnableitemtokenizationgenerative}}\\
@@ -129,7 +151,7 @@ Works that generate semantic IDs for generative recommendation can be generally 
 
 Table \ref{table:ModelClassification} briefly summarizes the models that fall into any of the 8 possible combinations for these axes. It is to be noted that not all categories may have models associated with them and not all models may fall strictly into one of these categories. Focus of some of the research may also not be a good fit for such classification. In \cite{2025RPG_hou2025generatinglongsemanticids}, the primary objective of the authors have been to generate long and more expressive semantic IDs using a framework that can generate them in parallel. The classification in Table \ref{table:ModelClassification} does not account for this. This generalized classification, however, allows us to organize the research areas in this space in a way that is more suitable for real-world use since each axis focuses on a different aspect of the generative recommendation process.
 
-Independent training of SID generation and generative recommendation allows the semantic IDs to be decoupled from its usage in recommendation. The SID, in this case, is a more truthful representation of its corresponding item and its content, and not of the item a user is likely to click on next. This is primarily useful if SIDs need to be also used for item organization or for recommending items solely on content similarity. The second axis focuses on the cost aspect of the recommendation process. Training an embedding model tailored to a specific catalog of items may improve the quality of embeddings but in practice that is often costly and infeasible. Using a pretrained embedding model to generate embeddings using item features as input is more cost effective and practical for most use cases. The last axis depicts whether any other data apart from the item contents, such as any user-level preferences and co-occurence features, is used as part of generating the SIDs. Although, some models use some kind of information during the generative process to personalize the recommendations for a specific user, usage of such information to generate semantic IDs is limited.
+Independent training of SID generation and generative recommendation allows the semantic IDs to be decoupled from its usage in recommendation. The SID, in this case, is a more truthful representation of its corresponding item and its content, and not of the item a user is likely to click on next. This is primarily useful if SIDs need to be also used for item organization or for recommending items solely on content similarity. Authors in \cite{JointSR_10.1145/3705328.3759300} have compared the effect of using task-specific SIDs to cross-task SIDs for search and recommendation tasks. Semantic IDs trained for search (from item content) or for recommendation (from interaction matrix) only tend to perform better on their respective tasks but not on the other. Semantic IDs that account for both these tasks provide balanced performance on both search and retrieval. The second axis focuses on the cost aspect of the recommendation process. Training an embedding model tailored to a specific catalog of items may improve the quality of embeddings but in practice that is often costly and infeasible. Using a pretrained embedding model to generate embeddings using item features as input is more cost effective and practical for most use cases. The last axis depicts whether any other data apart from the item contents, such as any user-level preferences and co-occurence features, is used as part of generating the SIDs. Although, some models use some kind of information during the generative process to personalize the recommendations for a specific user, usage of such information to generate semantic IDs is limited.
 
 For any real-world use case, the appropriate choice of architecture can be narrowed down by asking the following questions:
 
