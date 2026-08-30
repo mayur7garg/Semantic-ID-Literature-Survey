@@ -210,7 +210,7 @@
     - **Notes**:
         - Generating SIDs via Residual Quantization (RQ) suffers from objective misalignment and semantic degradation from two-stage compression.
         - Jointly optimized embeddings and SIDs in an end-to-end manner.
-        -  To capture fine-grained semantics, a multi-granularity contrastive learning strategy is introduced to align distinct items across SID levels.
+        - To capture fine-grained semantics, a multi-granularity contrastive learning strategy is introduced to align distinct items across SID levels.
         - A summary-based ad reconstruction mechanism is proposed to encourage SIDs to capture high-level semantic information that is not explicitly present in contexts.
         - Focuses primarily on SID and embedding generation
     - **Datasets**:
