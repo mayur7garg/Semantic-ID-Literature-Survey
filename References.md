@@ -127,7 +127,7 @@
         - Uses a session-wise generation approach. The videos within a session generally take into account factors such as user interest, coherence, and diversity
         - Uses an Iterative Preference Alignment module combined with Direct Preference Optimization (DPO)
         - A unified end-to-end generative framework for single-stage recommendation
-        - Multi-level balanced quantitative mechanism t otransform the item embedding with residual K-Means quantization algorithm
+        - Multi-level balanced quantitative mechanism to transform the item embedding with residual K-Means quantization algorithm
     - **Datasets**:
         - Kuaishou: a short video recommendation platform
     - **Related works**:
@@ -177,6 +177,14 @@
 22. [Deploying Semantic ID-based Generative Retrieval for Large-Scale Podcast Discovery at Spotify](https://arxiv.org/pdf/2603.17540)
     - **Year**: 2026
     - **Type**: Research paper
+    - **Topics covered**:
+        - GLIDE (Grounded LLM for Interest Discovery rEcommendations)
+    - **Notes**:
+        - Generative, language based podcast recommender that frames recommendation as an instruction-following task.
+        - Episodes represented by SIDs. Given a prompt encoding recent listening history, lightweight user context, and an explicit discovery objective, the model generates episode SIDs.
+        - Semantic grounding of SIDs using bidirectional translation tasks between SID tokens and episode textual descriptor
+        - Multi-task learning using a steerable parameter in the instruction - familiar vs unfamiliar
+        - Skewed prediction distribution mitigation steps
 
 23. [Generating Long Semantic IDs in Parallel for Recommendation](https://arxiv.org/pdf/2506.05781)
     - **Year**: 2025
