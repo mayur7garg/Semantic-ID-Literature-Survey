@@ -165,6 +165,16 @@
 19. [Semantic IDs for Recommender Systems at Snapchat: Use Cases, Technical Challenges, and Design Choices](https://arxiv.org/pdf/2604.03949)
     - **Year**: 2026
     - **Type**: Research paper
+    - **Topics covered**:
+        - Technical issues with using SIDs
+        - STE (straight-through estimator)
+    - **Notes**:
+        - Codebook collapse
+            - Mitigated by incorporating backpropagation through STE and using embeddings from multiple sources/modalities for the same item
+        - SID to item resolution
+            - Similar items often map to the exact same discrete token sequence (collision)
+            - Incorporate secondary ranking mechanism based on domain-specific heuristics (relevance metrics, temporal features)
+            - Prioritize retrieval depth over breadth
 
 20. [A Modular Survey for Semantic ID-Based Generative Recommendation](https://www.preprints.org/manuscript/202605.0619)
     - **Year**: 2026
