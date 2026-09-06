@@ -183,6 +183,18 @@
 21. [PLUM: Adapting Pre-trained Language Models for Industrial-scale Generative Recommendations](https://arxiv.org/pdf/2510.07784)
     - **Year**: 2025
     - **Type**: Research paper
+    - **Topics covered**:
+        - PLUM
+    - **Notes**:
+        - Fused multi-modal content representation. Embeddings from multiple sources are encoded by an embedding encoder, then concatenated and finally projected down to create a unified feature vector.
+        - Refinements to RQVAE by utilizing multi-resolution codebooks and progressive masking
+        - Adds an additional loss for co-occurrence contrastive regularization to bridge the gap between content based and behaviour based similarity
+        - Continued pre-training with user behaviour data and video metadata corpus to semantically ground the SID tokens
+        - The input prompt contains not only SID tokens and custom tokens for numerical features, but also other text features that can be naturally encoded by pre-trained LLMs.
+        - Low percentage of invalid IDs and low SID-to-video collisions.
+        - Trained a 900M Gemini 1.5 MoE model on both Long Form videos and shorts. Compared with Large Embedding Models (LEMs)
+        - Sample efficiency - Compared to the LEM, the 900M MoE model uses less samples and <0.55x flops to train. Scaling experiments show that PLUM scales well even for models of varying size and show no signs of overfitting.
+        - YouTube gets ~5% CTR lift on Shorts by replacing embedding tables with Semantic IDs on live A/B testing
 
 22. [Deploying Semantic ID-based Generative Retrieval for Large-Scale Podcast Discovery at Spotify](https://arxiv.org/pdf/2603.17540)
     - **Year**: 2026
