@@ -58,14 +58,14 @@ This literature survey provides a comprehensive overview of the recent advanceme
 For a user $u$ and their ordered interaction history $S = [i_1, i_2, \cdots, i_T]$ where $i_t \in I$ for last $T$ interactions with item space $I$, the objective of a generative recommendation model is to predict item $i_{T+1}$ that the user is most likely to interact with. By framing the interaction history as an ordered sequence, generative models analogously treat next item prediction as a next word prediction task in natural language modelling. Since most generative models perform this process in an auto-regressive manner, the probability $P$ of the next item predicted by the recommendation model can be expressed as shown:
 
 \begin{equation} \label{eq:GenRec}
-P (i_{1:T} | u, S) = \prod P(i_t | i_{<t}, u, S)
+P (i_{1:T} | u) = \prod P(i_t | i_{<t}, u)
 \end{equation}
 
 \subsection{Semantic IDs}
 The items in Eq. \ref{eq:GenRec} can be represented either by a single integer (Item ID) or a tuple of integers (semantic IDs). Atomic item IDs, despite being effective in certain situations, do not generalize well specifically when interaction data is sparse. Semantic IDs discretize content representations in a sequence of tokens which for an item $i$ can be expressed either as an ordered set $s_i = [s^1_i, s^2_i, \cdots, s^L_i]$ or an unordered set $s_i = \{s^1_i, s^2_i, \cdots, s^L_i\}$  of integer codes where $L$ is the number of semantic codes used per item. Generally, $L$ refers to the number of codebooks used during quantization of the item embeddings such that each codebook contributes one semantic code (refer to Section \ref{subsection:Quantization}) and the entire sequence uniquely identifies said item. Most state-of-the-art models prioritize ordered semantic IDs to leverage the auto-regressive decoding by language models so that they can generate one integer code at a time. By using semantic IDs as item identifiers, the interaction history from the previous section can be expressed as $S' = [s_1, s_2, \cdots, s_T]$. Eq \ref{eq:GenRec} now becomes:
 
 \begin{equation} \label{eq:SIDGenRec}
-P (s_{1:T} | u, S') = \prod P(s_t | s_{<t}, u, S')
+P (s_{1:T} | u) = \prod P(s_t | s_{<t}, u)
 \end{equation}
 
 Embeddings for the entire item set require $|I| \cdot d$ floating point numbers to be stored, where $d$ is the dimensionality of the embeddings. Most semantic IDs require $L$ integers per item and an additional overhead of storing $L$ codebooks, each of which contains $K$ reference embeddings. The total space requirement is thus bounded by $|I| \cdot L + L \cdot K \cdot d$ (assuming floats and integers take up the same number of bytes). In practice, $L \ll d$, and each integer code can be represented by much fewer bytes than floats, which enables SIDs to store the semantic information of the items in orders of magnitude less space. This compactness also translates to computational efficiency. Compared to large embedding models, He et al. \cite{2025PLUM_he2025plumadaptingpretrainedlanguage} showed that their SID-based solution requires much fewer samples and over $45\%$ fewer FLOPs to train.
